@@ -4,6 +4,15 @@ import * as userController from './../controllers/userController.js';
 
 const router = express.Router();
 
-router.post('/', userController.createUser);
+router
+  .route('/')
+  .post(userController.createUser)
+  .get(userController.getAllUsers);
+
+router
+  .route('/:id')
+  .get(userController.getUser)
+  .patch(userController.updateUser)
+  .delete(userController.deactivateUser);
 
 export { router as userRouter };
