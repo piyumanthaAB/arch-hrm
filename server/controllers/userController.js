@@ -1,6 +1,7 @@
 import User from '../models/userModel.js';
+import catchAsync from '../utils/catchAsync.js';
 
-const createUser = async (req, res) => {
+const createUser = catchAsync(async (req, res) => {
   const newUser = await User.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -17,6 +18,6 @@ const createUser = async (req, res) => {
     message: 'user profile created successfully!',
     data: {},
   });
-};
+});
 
 export { createUser };
