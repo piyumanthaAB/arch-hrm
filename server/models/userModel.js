@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema(
   {
@@ -70,6 +71,27 @@ const userSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+// hash the password whenever a user document is created on db
+userSchema.pre('save', async function (next) {
+  // Only run this if password is modified
+  if (!this.isModified('password')) return next();
+
+  // hash the password with 12 salt rounds
+  this.password = await bcrypt.hash(this.password, 12);
+
+  //delete the password confirm
+  this.passwordConfirm = undefined;
+  next();
+});
+
+// use to compare given password with hashed password on db
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('User', userSchema);
 export default User;

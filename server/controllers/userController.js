@@ -16,7 +16,7 @@ const createUser = catchAsync(async (req, res) => {
   res.status(201).json({
     status: 'success',
     message: 'user profile created successfully!',
-    data: {},
+    data: { newUser },
   });
 });
 

@@ -74,10 +74,7 @@ const globalErrorHandler = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     // send error if the running environment is development
     sendErrDev(err, res);
-  } else if (
-    process.env.NODE_ENV === 'production' ||
-    process.env.NODE_ENV === 'test_production'
-  ) {
+  } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
     error.message = err.message;
 
