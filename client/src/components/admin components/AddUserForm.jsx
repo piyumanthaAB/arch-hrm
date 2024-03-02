@@ -85,8 +85,8 @@ const AddUserForm = () => {
   };
   return (
     <a.Container>
+      <a.Header>Add Users</a.Header>
       <a.Form onSubmit={AddUser}>
-        <a.FormHeader>Add Users</a.FormHeader>
         <a.FormBody>
           <a.FormLeft>
             <a.InputContainer>

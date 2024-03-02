@@ -6,8 +6,8 @@ const useFetch = (url) => {
   const [isPending, setIspending] = useState(true);
   const [isError, setIserror] = useState(false);
 
-  const CancelToken = axios.CancelToken();
-  const source = CancelToken.source();
+  // const CancelToken = axios.CancelToken();
+  // const source = CancelToken.source();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +43,7 @@ const useFetch = (url) => {
     fetchData();
 
     return () => {
-      source.cancel('cancel request');
+      // source.cancel('cancel request');
     };
   }, [url]);
 

@@ -6,7 +6,7 @@ export const Container = styled.div`
   /* background-color: red; */
   padding: 3rem;
 `;
-export const FormHeader = styled.h1`
+export const Header = styled.h1`
   font-size: 2.5rem;
   color: #555;
   text-align: left;

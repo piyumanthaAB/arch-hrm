@@ -70,4 +70,5 @@ export const RightContainer = styled.div`
   background-color: #fff;
   border-radius: 1rem;
   padding: 3rem 5rem;
+  position: relative;
 `;
