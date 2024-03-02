@@ -23,6 +23,7 @@ export const ImageContainer = styled.img`
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: cover;
   background-image: url('https://demos.creative-tim.com/material-dashboard/assets/img/illustrations/illustration-signup.jpg');
 `;
 export const ContainerRight = styled.div`

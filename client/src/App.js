@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import AuthState from './context/auth/AuthState';
 import AdminAddUser from './pages/Admin/AdminAddUser';
 import AdminViewAllUsers from './pages/Admin/AdminViewAllUsers';
+import AdminViewSingleUser from './pages/Admin/AdminViewSingleUser';
 
 function App() {
   return (
@@ -59,8 +60,13 @@ function App() {
           />
           <Route
             exact
-            path="/admin/users/view-user/user_id"
-            element={<AdminUsers />}
+            path="/admin/users/view-user/:id"
+            element={<AdminViewSingleUser />}
+          />
+          <Route
+            exact
+            path="/admin/users/update-user/:id"
+            element={<AdminViewSingleUser viewUpdate={true} />}
           />
         </Routes>
       </Router>

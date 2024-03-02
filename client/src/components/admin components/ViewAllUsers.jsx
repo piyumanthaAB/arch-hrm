@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 const ViewAllUsers = ({ users }) => {
   const navigate = useNavigate();
 
-  const handleAction = (action) => {
+  const handleAction = (e, action, id) => {
     switch (action) {
       case 'view':
-        navigate('/admin/users/view-user/user_id');
+        navigate(`/admin/users/view-user/${id}`);
         break;
       case 'update':
-        navigate('/admin/users/update-user/user_id');
+        navigate(`/admin/users/update-user/${id}`);
         break;
       case 'delete':
         // navigate('/admin/users/update-user/user_id');
@@ -50,22 +50,22 @@ const ViewAllUsers = ({ users }) => {
                 <a.TableDataCell>{usr.img}</a.TableDataCell>
                 <a.TableDataCell className="flex">
                   <a.ActionBtn
-                    onClick={() => {
-                      handleAction('view');
+                    onClick={(e) => {
+                      handleAction(e, 'view', usr.id);
                     }}
                   >
                     <FiEye />
                   </a.ActionBtn>{' '}
                   <a.ActionBtn
-                    onClick={() => {
-                      handleAction('update');
+                    onClick={(e) => {
+                      handleAction(e, 'update', usr.id);
                     }}
                   >
                     <FiEdit2 />
                   </a.ActionBtn>{' '}
                   <a.ActionBtn
-                    onClick={() => {
-                      handleAction('delete');
+                    onClick={(e) => {
+                      handleAction(e, 'delete', usr.id);
                     }}
                   >
                     <FiXCircle />

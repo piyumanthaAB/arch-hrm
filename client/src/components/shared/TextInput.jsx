@@ -16,7 +16,14 @@ const Input = styled.input`
   }
 `;
 
-const TextInput = ({ placeholder, value, setValue, required, type }) => {
+const TextInput = ({
+  placeholder,
+  value,
+  setValue,
+  required,
+  type,
+  disabled,
+}) => {
   return (
     <Input
       required={required}
@@ -24,6 +31,7 @@ const TextInput = ({ placeholder, value, setValue, required, type }) => {
       onChange={(e) => setValue(e.target.value)}
       type={type || 'text'}
       placeholder={placeholder || 'placeholder'}
+      disabled={disabled || false}
     />
   );
 };
