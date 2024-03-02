@@ -4,7 +4,7 @@ import LoginForm from '../components/login/LoginForm';
 const UserLogin = () => {
   return (
     <>
-      <LoginForm>sdfsdf</LoginForm>
+      <LoginForm />
     </>
   );
 };

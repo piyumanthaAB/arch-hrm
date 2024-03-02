@@ -19,7 +19,9 @@ const LoginForm = () => {
           <l.InputContainer>
             <l.LoginBtn>sign in</l.LoginBtn>
           </l.InputContainer>
-          <l.FormFooterText>Don't have an account? Sign Up</l.FormFooterText>
+          <l.FormFooterText>
+            Don't have an account?&nbsp; <l.Span to="/signup">Sign Up</l.Span>{' '}
+          </l.FormFooterText>
         </l.FormBody>
       </l.FormContainer>
     </l.Container>

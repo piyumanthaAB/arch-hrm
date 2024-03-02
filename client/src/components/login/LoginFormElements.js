@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   width: 100%;
@@ -27,7 +28,7 @@ export const Container = styled.div`
 export const FormContainer = styled.div`
   position: relative;
   z-index: 10;
-  width: 30%;
+  width: 28%;
   /* min-height: 50rem; */
   background-color: #fff;
   border-radius: 1rem;
@@ -47,6 +48,13 @@ export const FormTop = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+export const Span = styled(Link)`
+  font-size: 1.5rem;
+  color: #ec407a;
+  text-decoration: none;
+  font-weight: 600;
 `;
 
 export const FormHeader = styled.h1`
