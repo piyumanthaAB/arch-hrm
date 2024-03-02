@@ -1,8 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
-
 import globalErrorHandler from './controllers/errorController.js';
+import bodyParser from 'body-parser';
 
 //routers import
 import { userRouter } from './routes/userRoutes.js';
@@ -16,7 +16,7 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 
 // read data coming from html forms.
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10kb' }));
 
 // body parser, reading JSON data from body into req.body
 app.use(express.json({ limit: '10kb' }));

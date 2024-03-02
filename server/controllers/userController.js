@@ -1,6 +1,7 @@
 import User from '../models/userModel.js';
 import AppError from '../utils/AppError.js';
 import catchAsync from '../utils/catchAsync.js';
+import multer from 'multer';
 
 // @ DESCRIPTION            =>  Create a new user document
 // @ ACCESS                 =>  'admin'
