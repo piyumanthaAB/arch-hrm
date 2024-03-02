@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as s from './SignupFormElements';
+import TextInput from '../shared/TextInput';
+import PasswordInput from '../shared/PasswordInput';
 
 const SignupForm = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState();
+  const [country, setCountry] = useState('Sri Lanka');
+  const [photo, setPhoto] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordReEnter, setPasswordReEnter] = useState('');
+
   return (
     <s.Container>
       <s.ContainerLeft>
@@ -16,30 +27,72 @@ const SignupForm = () => {
           <s.FormBody>
             <s.FormBodyLeft>
               <s.InputContainer>
-                <s.Input type="text" placeholder="First Name" />
+                <TextInput
+                  placeholder={'First Name'}
+                  value={firstName}
+                  setValue={setFirstName}
+                  required={true}
+                />
               </s.InputContainer>
               <s.InputContainer>
-                <s.Input type="text" placeholder="Last Name" />
+                <TextInput
+                  placeholder={'Last Name'}
+                  value={lastName}
+                  setValue={setLastName}
+                  required={true}
+                />
               </s.InputContainer>
               <s.InputContainer>
-                <s.Input type="email" placeholder="Email" />
+                <TextInput
+                  placeholder={'email'}
+                  value={email}
+                  setValue={setEmail}
+                  required={true}
+                  type={'email'}
+                />
               </s.InputContainer>
               <s.InputContainer>
-                <s.Input type="text" placeholder="Mobile" />
+                <TextInput
+                  placeholder={'Mobile'}
+                  value={mobile}
+                  setValue={setMobile}
+                  required={true}
+                  type={'number'}
+                />
               </s.InputContainer>
             </s.FormBodyLeft>
             <s.FormBodyRight>
               <s.InputContainer>
-                <s.Input type="text" placeholder="Country" />
+                <TextInput
+                  placeholder={'Country'}
+                  value={country}
+                  setValue={setCountry}
+                  required={true}
+                />
               </s.InputContainer>
               <s.InputContainer>
-                <s.Input type="text" placeholder="Photo" />
+                <TextInput
+                  placeholder={'Photo'}
+                  value={photo}
+                  setValue={setPhoto}
+                  required={true}
+                />
               </s.InputContainer>
               <s.InputContainer>
-                <s.Input type="password" placeholder="Password" />
+                <PasswordInput
+                  placeholder={'Password'}
+                  value={password}
+                  setValue={setPassword}
+                  required={true}
+                />
               </s.InputContainer>
               <s.InputContainer>
-                <s.Input type="password" placeholder="Re-enter Password" />
+                <PasswordInput
+                  placeholder={'Re-enter Password'}
+                  value={passwordReEnter}
+                  setValue={setPasswordReEnter}
+                  required={true}
+                />
               </s.InputContainer>
             </s.FormBodyRight>
           </s.FormBody>

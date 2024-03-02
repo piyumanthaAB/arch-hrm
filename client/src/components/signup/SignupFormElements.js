@@ -34,7 +34,7 @@ export const ContainerRight = styled.div`
   padding: 2rem;
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled.form`
   width: 100%;
   min-height: 50rem;
   background-color: #fff;

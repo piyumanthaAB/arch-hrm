@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as l from './LoginFormElements';
+import TextInput from '../shared/TextInput';
+import PasswordInput from '../shared/PasswordInput';
 
 const LoginForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
     <l.Container>
       <l.FormContainer>
@@ -11,10 +15,20 @@ const LoginForm = () => {
         </l.FormTop>
         <l.FormBody>
           <l.InputContainer>
-            <l.Input type="email" placeholder="Email" />
+            <TextInput
+              placeholder={'Email'}
+              value={email}
+              setValue={setEmail}
+              required={true}
+            />
           </l.InputContainer>
           <l.InputContainer>
-            <l.Input type="password" placeholder="Password" />
+            <PasswordInput
+              placeholder={'Password'}
+              value={password}
+              setValue={setPassword}
+              required={true}
+            />
           </l.InputContainer>
           <l.InputContainer>
             <l.LoginBtn>sign in</l.LoginBtn>
