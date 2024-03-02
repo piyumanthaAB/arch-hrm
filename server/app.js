@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 import globalErrorHandler from './controllers/errorController.js';
 
@@ -10,6 +11,9 @@ import { authRouter } from './routes/authRoutes.js';
 const app = express();
 
 app.use(morgan('dev'));
+
+// read cookies into req object
+app.use(cookieParser());
 
 // read data coming from html forms.
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
