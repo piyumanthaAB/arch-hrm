@@ -1,7 +1,28 @@
 import React from 'react';
 import * as a from './ViewAllUsersElements';
+import { FiEdit2, FiEye, FiXCircle } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const ViewAllUsers = ({ users }) => {
+  const navigate = useNavigate();
+
+  const handleAction = (action) => {
+    switch (action) {
+      case 'view':
+        navigate('/admin/users/view-user/user_id');
+        break;
+      case 'update':
+        navigate('/admin/users/update-user/user_id');
+        break;
+      case 'delete':
+        // navigate('/admin/users/update-user/user_id');
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <a.Container>
       <a.Header>View All Users</a.Header>
@@ -19,7 +40,7 @@ const ViewAllUsers = ({ users }) => {
           {users.map((usr, idx) => {
             return (
               <a.TableRow key={idx}>
-                <a.TableDataCell>{idx + 1}</a.TableDataCell>
+                <a.TableDataCell minwidth="5rem">{idx + 1}</a.TableDataCell>
                 <a.TableDataCell>
                   {usr.firstName} {usr.lastName}
                 </a.TableDataCell>
@@ -27,6 +48,29 @@ const ViewAllUsers = ({ users }) => {
                 <a.TableDataCell>{usr.mobile}</a.TableDataCell>
                 <a.TableDataCell>{usr.country}</a.TableDataCell>
                 <a.TableDataCell>{usr.img}</a.TableDataCell>
+                <a.TableDataCell className="flex">
+                  <a.ActionBtn
+                    onClick={() => {
+                      handleAction('view');
+                    }}
+                  >
+                    <FiEye />
+                  </a.ActionBtn>{' '}
+                  <a.ActionBtn
+                    onClick={() => {
+                      handleAction('update');
+                    }}
+                  >
+                    <FiEdit2 />
+                  </a.ActionBtn>{' '}
+                  <a.ActionBtn
+                    onClick={() => {
+                      handleAction('delete');
+                    }}
+                  >
+                    <FiXCircle />
+                  </a.ActionBtn>
+                </a.TableDataCell>
               </a.TableRow>
             );
           })}

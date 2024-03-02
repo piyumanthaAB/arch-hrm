@@ -23,6 +23,7 @@ export const Table = styled.table`
   height: 100%;
   border-collapse: collapse;
   position: relative;
+  text-align: left;
   /* background-color: green; */
 
   ${'' /* border-top:1px solid #ccc ; */}
@@ -32,7 +33,7 @@ export const Table = styled.table`
 export const TableRow = styled.tr`
   border-bottom: 1px solid #ddd;
   :hover {
-    background-color: #eee;
+    /* background-color: #eee; */
     cursor: pointer;
   }
 `;
@@ -46,7 +47,7 @@ export const TableHeader = styled.tr`
   padding: 2rem 0;
   top: 0;
   :hover {
-    background-color: #eee;
+    /* background-color: #eee; */
     cursor: pointer;
   }
 `;
@@ -60,6 +61,30 @@ export const TableDataCell = styled.td`
   min-width: ${(props) => props.minwidth || 'auto'};
   &.flex {
     display: flex;
-    align-items: center;
+    align-items: space-between;
+    justify-content: center;
+  }
+`;
+
+export const ActionBtn = styled.button`
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: #d81b60;
+  color: #fff;
+  font-size: 1.5rem;
+  outline: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  border: 1px solid #fff;
+  &:hover {
+    cursor: pointer;
+    background-color: #fff;
+    color: #d81b60;
+    border: 1px solid #d81b60;
   }
 `;
