@@ -44,7 +44,7 @@ const SignupForm = () => {
               </s.InputContainer>
               <s.InputContainer>
                 <TextInput
-                  placeholder={'email'}
+                  placeholder={'Email'}
                   value={email}
                   setValue={setEmail}
                   required={true}

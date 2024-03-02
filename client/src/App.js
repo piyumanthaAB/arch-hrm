@@ -6,6 +6,7 @@ import AdminUsers from './pages/Admin/AdminUsers';
 import UserProfile from './pages/UserProfile';
 import { Toaster } from 'react-hot-toast';
 import AuthState from './context/auth/AuthState';
+import AdminAddUser from './pages/Admin/AdminAddUser';
 
 function App() {
   return (
@@ -41,7 +42,11 @@ function App() {
           <Route exact path="/admin/home" element={<AdminHome />} />
           <Route exact path="/admin/my-profile" element={<UserProfile />} />
           <Route exact path="/admin/users" element={<AdminUsers />} />
-          <Route exact path="/admin/users/add-user" element={<AdminUsers />} />
+          <Route
+            exact
+            path="/admin/users/add-user"
+            element={<AdminAddUser />}
+          />
           <Route
             exact
             path="/admin/users/view-users"

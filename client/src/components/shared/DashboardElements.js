@@ -7,6 +7,7 @@ export const Container = styled.div`
   background-color: #ddd;
   display: flex;
   padding: 2rem;
+  justify-content: space-around;
 `;
 
 export const LeftPanel = styled.div`
@@ -65,6 +66,8 @@ export const NavItemTextContainer = styled.div`
 `;
 
 export const RightContainer = styled.div`
-  flex: 1;
+  flex: 0 1 80%;
   background-color: #fff;
+  border-radius: 1rem;
+  padding: 3rem 5rem;
 `;

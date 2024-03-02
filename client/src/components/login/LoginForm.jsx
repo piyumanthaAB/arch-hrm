@@ -36,11 +36,11 @@ const LoginForm = () => {
     toast.promise(
       login({ email, password }),
       {
-        loading: 'Logging In ...',
-        success: (data) => `Logged in successfully `,
+        loading: 'Signing In ...',
+        success: (data) => `Signed in successfully `,
         error: (err) => {
           if (!err.response.data.message) {
-            return 'Something went wrong. Try again.';
+            return 'Something went wrong. Please Try again.';
           }
           return `${err?.response?.data?.message?.toString()}`;
         },

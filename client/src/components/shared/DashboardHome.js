@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { adminCards } from '../../data/home page cards/adminCards';
 import { userCards } from '../../data/home page cards/userCards';
+import useAuth from './../../hooks/useAuth';
 
 export const Container = styled.div`
   ${'' /* background-color:green ; */}
@@ -36,6 +37,23 @@ export const CardContainer = styled.div`
 
 const DashboardHome = () => {
   const [cards, setCards] = useState(adminCards);
+
+  const { user } = useAuth();
+
+  useEffect(() => {
+    switch (user?.role) {
+      case 'admin':
+        setCards(adminCards);
+        break;
+      case 'user':
+        setCards(userCards);
+        break;
+
+      default:
+        // navigate('/login')
+        break;
+    }
+  }, [user]);
   return (
     <Container>
       <HeaderContainer>Welcome</HeaderContainer>
