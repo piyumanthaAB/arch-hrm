@@ -40,6 +40,12 @@ export const NavItem = styled(Link)`
   border-radius: 0.5rem;
   padding: 0 2rem;
   margin: 1rem 0;
+  transition: all 1s;
+
+  &:hover {
+    transition: all 1s;
+    background-image: linear-gradient(195deg, #244, #242424);
+  }
 `;
 
 export const IconContainer = styled.div`

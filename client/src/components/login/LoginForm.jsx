@@ -1,11 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as l from './LoginFormElements';
 import TextInput from '../shared/TextInput';
 import PasswordInput from '../shared/PasswordInput';
+import useAuth from '../../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { login, user, loading, isAuthenticated } = useAuth();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated && user && !loading) {
+      switch (user?.role) {
+        case 'admin':
+          navigate('/admin/home');
+          break;
+        case 'user':
+          navigate('/user/home');
+          break;
+
+        default:
+          navigate('/');
+      }
+    }
+  }, [isAuthenticated, user]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    toast.promise(
+      login({ email, password }),
+      {
+        loading: 'Logging In ...',
+        success: (data) => `Logged in successfully `,
+        error: (err) => {
+          if (!err.response.data.message) {
+            return 'Something went wrong. Try again.';
+          }
+          return `${err?.response?.data?.message?.toString()}`;
+        },
+      },
+      {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+          fontSize: '1.5rem',
+        },
+      }
+    );
+  };
+
   return (
     <l.Container>
       <l.FormContainer>
@@ -13,7 +63,7 @@ const LoginForm = () => {
           <l.FormHeader>Sign in</l.FormHeader>
           <l.FormSubHeader>Welcome to the ARCH-HRM</l.FormSubHeader>
         </l.FormTop>
-        <l.FormBody>
+        <l.FormBody onSubmit={handleSubmit}>
           <l.InputContainer>
             <TextInput
               placeholder={'Email'}

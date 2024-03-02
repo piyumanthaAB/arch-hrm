@@ -1,4 +1,4 @@
-import { FiHome, FiUsers, FiBook, FiCheckCircle } from 'react-icons/fi';
+import { FiHome, FiUsers } from 'react-icons/fi';
 
 const links = [
   {
