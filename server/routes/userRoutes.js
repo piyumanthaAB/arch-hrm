@@ -22,4 +22,6 @@ router
   .patch(userController.updateUser)
   .delete(userController.deactivateUser);
 
+router.route('/filter/aaa').get(userController.getUserByUIDroName);
+
 export { router as userRouter };

@@ -226,6 +226,25 @@ const deactivateUser = catchAsync(async (req, res, next) => {
   });
 });
 
+const getUserByUIDroName = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const query = req.query;
+
+  console.log({ query });
+
+  // const user = await User.findOne({
+  //   $or: [
+  //     { uid: criteria },
+  //     { firstName: criteria.firstName, lastName: criteria.lastName },
+  //   ],
+  // });
+
+  res.status(200).json({
+    status: 'success',
+    data: {},
+  });
+});
+
 export {
   createUser,
   getAllUsers,
@@ -234,4 +253,5 @@ export {
   deactivateUser,
   uploadImages,
   createBlobContainer,
+  getUserByUIDroName,
 };
