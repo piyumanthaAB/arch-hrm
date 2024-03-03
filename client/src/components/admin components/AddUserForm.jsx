@@ -27,8 +27,8 @@ const AddUserForm = () => {
         url: `/api/v1/users`,
         data: formData,
         headers: {
-          'Content-Type': 'application/json',
-          //   'Content-Type': 'multipart/form-data',
+          // 'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
       return res;

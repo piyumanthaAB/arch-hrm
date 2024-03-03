@@ -2,9 +2,71 @@ import React from 'react';
 import * as a from './ViewAllUsersElements';
 import { FiEdit2, FiEye, FiXCircle } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
 const ViewAllUsers = ({ users }) => {
   const navigate = useNavigate();
+
+  const deleteUser = async (e, id) => {
+    try {
+      const res = await axios({
+        method: 'DELETE',
+        url: `/api/v1/users/${id}`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err.response.data);
+      throw err;
+    }
+  };
+
+  const handleDelete = async (e, id) => {
+    toast(
+      (t, id) => (
+        <span>
+          Are you sure you want to delete this user?
+          <button
+            onClick={(e, id) => {
+              toast.promise(
+                deleteUser(e, id),
+                {
+                  loading: 'Deleting User...',
+                  success: (data) => {
+                    // console.log({ data });
+                    return ` ${data.data.message} ` || 'success';
+                  },
+                  error: (err) => {
+                    if (!err.response.data.message) {
+                      return 'Something went wrong. Please Try again.';
+                    }
+                    return `${err?.response?.data?.message?.toString()}`;
+                  },
+                },
+                {
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                    fontSize: '1.6rem',
+                  },
+                }
+              );
+            }}
+          >
+            Yes
+          </button>
+          <button onClick={() => toast.dismiss(t.id)}>No</button>
+        </span>
+      ),
+      {
+        icon: <FiEdit2 />,
+      }
+    );
+  };
 
   const handleAction = (e, action, id) => {
     switch (action) {
@@ -15,7 +77,7 @@ const ViewAllUsers = ({ users }) => {
         navigate(`/admin/users/update-user/${id}`);
         break;
       case 'delete':
-        // navigate('/admin/users/update-user/user_id');
+        handleDelete(e, id);
         break;
 
       default:

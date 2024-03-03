@@ -7,7 +7,11 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(userController.createUser)
+  .post(
+    userController.createBlobContainer,
+    userController.uploadImages,
+    userController.createUser
+  )
   .get(authController.protect, userController.getAllUsers);
 
 router.use(authController.protect, authController.allowedOnlyTo('admin'));
