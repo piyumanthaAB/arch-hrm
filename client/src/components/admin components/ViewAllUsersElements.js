@@ -98,3 +98,39 @@ export const PhotoThumbnail = styled.div`
   background-repeat: no-repeat;
   border-radius: 50%;
 `;
+
+export const TableFooter = styled.div`
+  width: 100%;
+  /* background-color: red; */
+  min-height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const PaginationContainer = styled.div`
+  width: 40%;
+  height: 100%;
+  /* background-color: green; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const PaginationBtn = styled.div`
+  width: 3rem;
+  height: 3rem;
+  background-color: #d81b60;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;

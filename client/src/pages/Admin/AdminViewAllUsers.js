@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dashboard from '../../components/shared/Dashboard';
 import ViewAllUsers from '../../components/admin components/ViewAllUsers';
 import useFetch from '../../hooks/useFetch';
@@ -13,7 +13,12 @@ const override = {
 };
 
 const AdminViewAllUsers = () => {
-  const { data, isPending, isError } = useFetch('/api/v1/users');
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+
+  const { data, isPending, isError } = useFetch(
+    `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}`
+  );
 
   console.log({ data });
 
@@ -31,7 +36,13 @@ const AdminViewAllUsers = () => {
       )}
       {data && (
         <Dashboard
-          rightContainerContent={<ViewAllUsers users={data.data.users} />}
+          rightContainerContent={
+            <ViewAllUsers
+              users={data.data.users}
+              setPage={setPage}
+              page={page}
+            />
+          }
         />
       )}
     </>

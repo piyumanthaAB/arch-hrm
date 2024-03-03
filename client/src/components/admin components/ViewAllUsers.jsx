@@ -1,11 +1,17 @@
 import React from 'react';
 import * as a from './ViewAllUsersElements';
-import { FiEdit2, FiEye, FiXCircle } from 'react-icons/fi';
+import {
+  FiEdit2,
+  FiEye,
+  FiXCircle,
+  FiChevronRight,
+  FiChevronLeft,
+} from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
-const ViewAllUsers = ({ users }) => {
+const ViewAllUsers = ({ users, setPage, page }) => {
   const navigate = useNavigate();
 
   const deleteUser = async (e, id) => {
@@ -92,23 +98,23 @@ const ViewAllUsers = ({ users }) => {
         <a.Table>
           <a.TableHeader>
             <a.TableDataCell th={true}>#</a.TableDataCell>
-            <a.TableDataCell th={true}>Name</a.TableDataCell>
+            <a.TableDataCell th={true}>UID</a.TableDataCell>
+            <a.TableDataCell th={true}>First Name</a.TableDataCell>
+            <a.TableDataCell th={true}>Last Name</a.TableDataCell>
             <a.TableDataCell th={true}>Email</a.TableDataCell>
-            <a.TableDataCell th={true}>Mobile</a.TableDataCell>
-            <a.TableDataCell th={true}>Country</a.TableDataCell>
+            <a.TableDataCell th={true}>Created Date Time</a.TableDataCell>
             <a.TableDataCell th={true}>Photo</a.TableDataCell>
             <a.TableDataCell th={true}>Actions</a.TableDataCell>
           </a.TableHeader>
           {users.map((usr, idx) => {
             return (
               <a.TableRow key={idx}>
-                <a.TableDataCell minwidth="5rem">{idx + 1}</a.TableDataCell>
-                <a.TableDataCell>
-                  {usr.firstName} {usr.lastName}
-                </a.TableDataCell>
+                <a.TableDataCell>{idx + 1}</a.TableDataCell>
+                <a.TableDataCell>{usr.uid || '-'}</a.TableDataCell>
+                <a.TableDataCell>{usr.firstName}</a.TableDataCell>
+                <a.TableDataCell>{usr.lastName}</a.TableDataCell>
                 <a.TableDataCell>{usr.email}</a.TableDataCell>
-                <a.TableDataCell>{usr.mobile}</a.TableDataCell>
-                <a.TableDataCell>{usr.country}</a.TableDataCell>
+                <a.TableDataCell>{usr.createdAt}</a.TableDataCell>
                 <a.TableDataCell>
                   <a.PhotoThumbnail imageUrl={usr.profilePicture} />
                 </a.TableDataCell>
@@ -139,6 +145,24 @@ const ViewAllUsers = ({ users }) => {
             );
           })}
         </a.Table>
+        <a.TableFooter>
+          <a.PaginationContainer>
+            <a.PaginationBtn
+              onClick={() => {
+                page > 1 ? setPage(page - 1) : setPage(page);
+              }}
+            >
+              <FiChevronLeft />
+            </a.PaginationBtn>
+            <a.PaginationBtn
+              onClick={() => {
+                setPage(++page);
+              }}
+            >
+              <FiChevronRight />
+            </a.PaginationBtn>
+          </a.PaginationContainer>
+        </a.TableFooter>
       </a.TableContainer>
     </a.Container>
   );

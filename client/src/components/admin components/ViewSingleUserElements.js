@@ -17,7 +17,7 @@ export const ImgContainer = styled.div`
   height: 30rem;
   /* background-color: #ccc; */
   border-radius: 50%;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png');
+  background-image: url(${(props) => props.imageUrl});
   background-size: cover;
   background-position: center;
   border: 2px solid #ec407a;

@@ -8,6 +8,7 @@ import {
   StorageSharedKeyCredential,
 } from '@azure/storage-blob';
 import dotenv from 'dotenv';
+import APIFeatures from '../utils/APIFeatures.js';
 if (process.env.NODE_ENV === 'development') {
   // set the path of the configuration file which stores the environment variables
   dotenv.config({ path: './development.env' });
@@ -125,7 +126,15 @@ const createUser = catchAsync(async (req, res) => {
 // @ DESCRIPTION            =>  Get all the users from the collection
 // @ ACCESS                 =>  'admin'
 const getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
+  // const users = await User.find();
+
+  const features = new APIFeatures(User.find(), req.query)
+    .filter()
+    .sort()
+    .limiting()
+    .paging();
+
+  const users = await features.query;
 
   res.status(200).json({
     status: 'success',

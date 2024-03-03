@@ -8,13 +8,13 @@ const ViewSingleUser = ({ user, update }) => {
   const [email, setEmail] = useState(user.email);
   const [mobile, setMobile] = useState(user.mobile);
   const [country, setCountry] = useState(user.country);
-  const [photo, setPhoto] = useState('');
+  const [photo, setPhoto] = useState(user.profilePicture);
   return (
     <a.Container>
       <a.Header>View User</a.Header>
       <a.UserInfoContainer>
         <a.InfoLeft>
-          <a.ImgContainer />
+          <a.ImgContainer imageUrl={photo} />
         </a.InfoLeft>
         <a.InfoRight>
           <a.InfoGroup>
