@@ -144,6 +144,9 @@ export const FilterRow = styled.div`
 
 export const FilterLeft = styled.div`
   flex: 0 1 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   /* background-color: green; */
 `;
 export const FilterRight = styled.div`
@@ -176,4 +179,45 @@ export const DateInput = styled.input`
 
 export const DateFilterClear = styled.div`
   width: 4rem;
+`;
+
+export const SearchBar = styled.input`
+  width: 60%;
+  border: 1px solid #222;
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  outline: none;
+`;
+
+export const SearchBtn = styled.div`
+  padding: 1rem;
+  background-color: #d81b60;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 0.5rem;
+  margin: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+export const CloseBtn = styled.div`
+  padding: 1rem;
+  background-color: #d81b60;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 0.5rem;
+  margin: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;

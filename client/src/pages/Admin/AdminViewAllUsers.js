@@ -19,11 +19,21 @@ const AdminViewAllUsers = () => {
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
 
-  const { data, isPending, isError } = useFetch(
+  const [search, setSearch] = useState(false);
+
+  const [url, setUrl] = useState(
     `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}${
       from ? `&createdAt[gte]=${from}` : ''
-    }${to ? `&createdAt[lte]=${to}` : ''}`.slice(' ')
+    }${to ? `&createdAt[lte]=${to}` : ''}`.trim()
   );
+  const [urlSearch, setUrlSearch] = useState(null);
+
+  const { data, isPending, isError } = useFetch(urlSearch || url);
+  // const { data, isPending, isError } = useFetch(
+  //   `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}${
+  //     from ? `&createdAt[gte]=${from}` : ''
+  //   }${to ? `&createdAt[lte]=${to}` : ''}`.trim()
+  // );
 
   console.log({ data });
 
@@ -48,6 +58,7 @@ const AdminViewAllUsers = () => {
               page={page}
               setFrom={setFrom}
               setTo={setTo}
+              setUrlSearch={setUrlSearch}
             />
           }
         />

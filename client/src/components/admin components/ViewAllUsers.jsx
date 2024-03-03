@@ -11,7 +11,14 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
-const ViewAllUsers = ({ users, setPage, page, setFrom, setTo }) => {
+const ViewAllUsers = ({
+  users,
+  setPage,
+  page,
+  setFrom,
+  setTo,
+  setUrlSearch,
+}) => {
   const navigate = useNavigate();
 
   const deleteUser = async (e, id) => {
@@ -91,12 +98,38 @@ const ViewAllUsers = ({ users, setPage, page, setFrom, setTo }) => {
     }
   };
 
+  const [searchInput, setSearchInput] = useState('');
+
   return (
     <a.Container>
       <a.Header>View All Users</a.Header>
       <a.TableContainer>
         <a.FilterRow>
-          <a.FilterLeft></a.FilterLeft>
+          <a.FilterLeft>
+            <a.SearchBar
+              placeholder="Enter name or UID"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <a.SearchBtn
+              onClick={() => {
+                if (searchInput === '') {
+                  return toast.error('Please enter name or UID!');
+                }
+                setUrlSearch(`/api/v1/users/filter?criteria=${searchInput}`);
+              }}
+            >
+              Search
+            </a.SearchBtn>
+            <a.SearchBtn
+              onClick={() => {
+                setSearchInput('');
+                setUrlSearch(null);
+              }}
+            >
+              Clear
+            </a.SearchBtn>
+          </a.FilterLeft>
           <a.FilterRight>
             <a.DatePickerContainer>
               <a.Label>From Date</a.Label>
@@ -112,66 +145,71 @@ const ViewAllUsers = ({ users, setPage, page, setFrom, setTo }) => {
                 onChange={(e) => setTo(e.target.value)}
               />
             </a.DatePickerContainer>
-            <a.PaginationBtn
+            <a.CloseBtn
               onClick={() => {
                 setFrom(null);
                 setTo(null);
               }}
             >
               <FiXCircle />
-            </a.PaginationBtn>
+            </a.CloseBtn>
           </a.FilterRight>
         </a.FilterRow>
-        <a.Table>
-          <a.TableHeader>
-            <a.TableDataCell th={true}>#</a.TableDataCell>
-            <a.TableDataCell th={true}>UID</a.TableDataCell>
-            <a.TableDataCell th={true}>First Name</a.TableDataCell>
-            <a.TableDataCell th={true}>Last Name</a.TableDataCell>
-            <a.TableDataCell th={true}>Email</a.TableDataCell>
-            <a.TableDataCell th={true}>Created Date Time</a.TableDataCell>
-            <a.TableDataCell th={true}>Photo</a.TableDataCell>
-            <a.TableDataCell th={true}>Actions</a.TableDataCell>
-          </a.TableHeader>
-          {users.map((usr, idx) => {
-            return (
-              <a.TableRow key={idx}>
-                <a.TableDataCell>{idx + 1}</a.TableDataCell>
-                <a.TableDataCell>{usr.uid || '-'}</a.TableDataCell>
-                <a.TableDataCell>{usr.firstName}</a.TableDataCell>
-                <a.TableDataCell>{usr.lastName}</a.TableDataCell>
-                <a.TableDataCell>{usr.email}</a.TableDataCell>
-                <a.TableDataCell>{usr.createdAt}</a.TableDataCell>
-                <a.TableDataCell>
-                  <a.PhotoThumbnail imageUrl={usr.profilePicture} />
-                </a.TableDataCell>
-                <a.TableDataCell className="flex">
-                  <a.ActionBtn
-                    onClick={(e) => {
-                      handleAction(e, 'view', usr.id);
-                    }}
-                  >
-                    <FiEye />
-                  </a.ActionBtn>{' '}
-                  <a.ActionBtn
-                    onClick={(e) => {
-                      handleAction(e, 'update', usr.id);
-                    }}
-                  >
-                    <FiEdit2 />
-                  </a.ActionBtn>{' '}
-                  <a.ActionBtn
-                    onClick={(e) => {
-                      handleAction(e, 'delete', usr.id);
-                    }}
-                  >
-                    <FiXCircle />
-                  </a.ActionBtn>
-                </a.TableDataCell>
-              </a.TableRow>
-            );
-          })}
-        </a.Table>
+        {users[0] === null && <h1>No records found</h1>}
+        {users[0] != null && (
+          <a.Table>
+            <a.TableHeader>
+              <a.TableDataCell th={true}>#</a.TableDataCell>
+              <a.TableDataCell th={true}>UID</a.TableDataCell>
+              <a.TableDataCell th={true}>First Name</a.TableDataCell>
+              <a.TableDataCell th={true}>Last Name</a.TableDataCell>
+              <a.TableDataCell th={true}>Email</a.TableDataCell>
+              <a.TableDataCell th={true}>Created Date Time</a.TableDataCell>
+              <a.TableDataCell th={true}>Photo</a.TableDataCell>
+              <a.TableDataCell th={true}>Actions</a.TableDataCell>
+            </a.TableHeader>
+
+            {users.length > 0 &&
+              users.map((usr, idx) => {
+                return (
+                  <a.TableRow key={idx}>
+                    <a.TableDataCell>{idx + 1}</a.TableDataCell>
+                    <a.TableDataCell>{usr?.uid || '-'}</a.TableDataCell>
+                    <a.TableDataCell>{usr.firstName}</a.TableDataCell>
+                    <a.TableDataCell>{usr.lastName}</a.TableDataCell>
+                    <a.TableDataCell>{usr.email}</a.TableDataCell>
+                    <a.TableDataCell>{usr.createdAt}</a.TableDataCell>
+                    <a.TableDataCell>
+                      <a.PhotoThumbnail imageUrl={usr.profilePicture} />
+                    </a.TableDataCell>
+                    <a.TableDataCell className="flex">
+                      <a.ActionBtn
+                        onClick={(e) => {
+                          handleAction(e, 'view', usr.id);
+                        }}
+                      >
+                        <FiEye />
+                      </a.ActionBtn>{' '}
+                      <a.ActionBtn
+                        onClick={(e) => {
+                          handleAction(e, 'update', usr.id);
+                        }}
+                      >
+                        <FiEdit2 />
+                      </a.ActionBtn>{' '}
+                      <a.ActionBtn
+                        onClick={(e) => {
+                          handleAction(e, 'delete', usr.id);
+                        }}
+                      >
+                        <FiXCircle />
+                      </a.ActionBtn>
+                    </a.TableDataCell>
+                  </a.TableRow>
+                );
+              })}
+          </a.Table>
+        )}
         <a.TableFooter>
           <a.PaginationContainer>
             <a.PaginationBtn

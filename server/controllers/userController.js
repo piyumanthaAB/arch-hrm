@@ -227,21 +227,38 @@ const deactivateUser = catchAsync(async (req, res, next) => {
 });
 
 const getUserByUIDroName = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
   const query = req.query;
 
-  console.log({ query });
+  const criteria = query.criteria;
+  const items = criteria.split(' ');
 
-  // const user = await User.findOne({
-  //   $or: [
-  //     { uid: criteria },
-  //     { firstName: criteria.firstName, lastName: criteria.lastName },
-  //   ],
-  // });
+  let firstName;
+  let lastName;
+  let uid;
+
+  if (items.length === 1) {
+    uid = items[0];
+  }
+  if (items.length === 2) {
+    firstName = items[0];
+    lastName = items[1];
+  }
+
+  if (items.length === 0 || items.length >= 3) {
+    next(new AppError('Invalid parameters!', 400));
+  }
+
+  // console.log({ items });
+
+  const user = await User.findOne({
+    $or: [{ uid: uid }, { firstName: firstName, lastName: lastName }],
+  });
+
+  console.log({ user });
 
   res.status(200).json({
     status: 'success',
-    data: {},
+    data: { users: [user] },
   });
 });
 
