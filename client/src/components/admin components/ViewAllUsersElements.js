@@ -227,7 +227,7 @@ export const PopupContainer = styled.div`
   width: 50%;
   min-height: 80%;
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
@@ -255,5 +255,54 @@ export const DataExportBtn = styled.div`
 
   &:hover {
     cursor: pointer;
+  }
+`;
+
+export const PopupCloseBtn = styled.div`
+  width: 4rem;
+  height: 4rem;
+  background-color: #d81b60;
+  border-radius: 50%;
+  font-size: 1.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -5%;
+  right: -3%;
+  color: #fff;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const AlertBtn = styled.button`
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  color: #fff;
+  background-color: ${(props) => (props.yes ? '#d81b60' : '#000')};
+  outline: none;
+  border: none;
+  margin: 1rem 1rem;
+  border-radius: 1rem;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const CheckBox = styled.input.attrs({ type: 'checkbox' })`
+  appearance: none;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  margin: 0 1rem;
+
+  &:checked {
+    background-color: #d81b60;
+    border-color: #d81b60;
   }
 `;

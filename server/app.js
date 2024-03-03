@@ -5,6 +5,7 @@ import globalErrorHandler from './controllers/errorController.js';
 import bodyParser from 'body-parser';
 import path from 'path';
 const __dirname = path.resolve();
+import AppError from './utils/AppError.js';
 
 //routers import
 import { userRouter } from './routes/userRoutes.js';

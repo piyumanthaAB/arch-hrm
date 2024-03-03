@@ -3,15 +3,13 @@ import axios from 'axios';
 
 const useFetch = (url) => {
   const [data, setData] = useState(null);
-  const [isPending, setIspending] = useState(true);
-  const [isError, setIserror] = useState(false);
-
-  // const CancelToken = axios.CancelToken();
-  // const source = CancelToken.source();
+  const [isPending, setIsPending] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [trigger, setTrigger] = useState(false); // New trigger state
 
   useEffect(() => {
     const fetchData = async () => {
-      setIspending(true);
+      setIsPending(true);
       try {
         const res = await axios({
           method: 'GET',
@@ -19,35 +17,32 @@ const useFetch = (url) => {
         });
 
         if (res.status === 200 || res.status === 201) {
-          setIserror(false);
+          setIsError(false);
           setData(res.data);
         } else {
-          setIserror(true);
+          setIsError(true);
         }
-        setIspending(false);
-        // console.log(res);
+        setIsPending(false);
       } catch (error) {
-        // console.log(error);
-        // console.log(error.response?.data);
-        // console.log({ 'error.message': error?.message });
-        if (error.message === 'cancel request') {
-          // console.log('fetch aborted');
-        } else {
-          setIserror(true);
-          setIspending(false);
-          setData(null);
-        }
+        setIsError(true);
+        setIsPending(false);
+        setData(null);
       }
     };
 
-    fetchData();
+    // Fetch data when URL changes or trigger is set
+    if (url || trigger) {
+      fetchData();
+      setTrigger(false); // Reset trigger after fetching data
+    }
+  }, [url, trigger]); // Include trigger in dependency array
 
-    return () => {
-      // source.cancel('cancel request');
-    };
-  }, [url]);
+  // Function to manually trigger fetch
+  const manualFetch = () => {
+    setTrigger(true);
+  };
 
-  return { data, isPending, isError };
+  return { data, isPending, isError, manualFetch };
 };
 
 export default useFetch;

@@ -22,13 +22,13 @@ const AdminViewAllUsers = () => {
   const [search, setSearch] = useState(false);
 
   const [url, setUrl] = useState(
-    `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}${
+    `/api/v1/users?sort=-createdAt&active=true&limit=${limit}&page=${page}${
       from ? `&createdAt[gte]=${from}` : ''
     }${to ? `&createdAt[lte]=${to}` : ''}`.trim()
   );
   const [urlSearch, setUrlSearch] = useState(null);
 
-  const { data, isPending, isError } = useFetch(urlSearch || url);
+  const { data, isPending, isError, manualFetch } = useFetch(urlSearch || url);
   // const { data, isPending, isError } = useFetch(
   //   `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}${
   //     from ? `&createdAt[gte]=${from}` : ''
@@ -59,6 +59,7 @@ const AdminViewAllUsers = () => {
               setFrom={setFrom}
               setTo={setTo}
               setUrlSearch={setUrlSearch}
+              manualFetch={manualFetch}
             />
           }
         />

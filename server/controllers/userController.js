@@ -262,6 +262,19 @@ const getUserByUIDroName = catchAsync(async (req, res, next) => {
   });
 });
 
+const deleteManyUsersById = catchAsync(async (req, res, next) => {
+  const { userIdList } = req.body;
+
+  const result = await User.updateMany(
+    { _id: { $in: userIdList } },
+    { $set: { active: false } }
+  );
+  res.status(200).json({
+    status: 'success',
+    message: `${result.matchedCount} records have been deleted`,
+  });
+});
+
 export {
   createUser,
   getAllUsers,
@@ -271,4 +284,5 @@ export {
   uploadImages,
   createBlobContainer,
   getUserByUIDroName,
+  deleteManyUsersById,
 };

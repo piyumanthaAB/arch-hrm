@@ -14,6 +14,14 @@ router
   );
 
 router
+  .route('/delete-many')
+  .delete(
+    authController.protect,
+    authController.allowedOnlyTo('admin'),
+    userController.deleteManyUsersById
+  );
+
+router
   .route('/')
   .post(
     userController.createBlobContainer,

@@ -23,14 +23,26 @@ const ViewAllUsers = ({
   setFrom,
   setTo,
   setUrlSearch,
+  manualFetch,
 }) => {
   const navigate = useNavigate();
 
-  const deleteUser = async (e, id) => {
+  const [deleteUserId, setDeleteUserId] = useState('');
+  const [deleteMultiple, setDeleteMultiple] = useState([]);
+
+  const handleCheckboxChange = (id) => {
+    if (!deleteMultiple.includes(id)) {
+      setDeleteMultiple([...deleteMultiple, id]);
+    } else {
+      setDeleteMultiple(deleteMultiple.filter((item) => item !== id));
+    }
+  };
+
+  const deleteUser = async () => {
     try {
       const res = await axios({
         method: 'DELETE',
-        url: `/api/v1/users/${id}`,
+        url: `/api/v1/users/${deleteUserId}`,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -41,21 +53,43 @@ const ViewAllUsers = ({
       throw err;
     }
   };
+  const deleteMultipleUsers = async () => {
+    try {
+      const res = await axios({
+        method: 'DELETE',
+        url: `/api/v1/users/delete-many`,
+        data: { userIdList: deleteMultiple },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setDeleteMultiple([]);
+      manualFetch();
+      return res;
+    } catch (err) {
+      console.log(err.response.data);
+      throw err;
+    }
+  };
 
-  const handleDelete = async (e, id) => {
+  const handleDeleteMultiple = async (e, id) => {
     toast(
       (t, id) => (
         <span>
-          Are you sure you want to delete this user?
-          <button
-            onClick={(e, id) => {
+          Are you sure you want to delete these {deleteMultiple.length} users?{' '}
+          <br />
+          <a.AlertBtn
+            yes={true}
+            onClick={() => {
+              toast.dismiss(t.id);
               toast.promise(
-                deleteUser(e, id),
+                deleteMultipleUsers(),
                 {
                   loading: 'Deleting User...',
                   success: (data) => {
-                    // console.log({ data });
-                    return ` ${data.data.message} ` || 'success';
+                    console.log({ data });
+
+                    return ` ${data?.data?.message || 'success'} ` || 'success';
                   },
                   error: (err) => {
                     if (!err.response.data.message) {
@@ -76,12 +110,60 @@ const ViewAllUsers = ({
             }}
           >
             Yes
-          </button>
-          <button onClick={() => toast.dismiss(t.id)}>No</button>
+          </a.AlertBtn>
+          <a.AlertBtn onClick={() => toast.dismiss(t.id)}>No</a.AlertBtn>
         </span>
       ),
       {
-        icon: <FiEdit2 />,
+        // icon: <FiEdit2 />,
+        duration: Infinity,
+      }
+    );
+  };
+  const handleDelete = async (e, id) => {
+    toast(
+      (t, id) => (
+        <span>
+          Are you sure you want to delete this user? <br />
+          <a.AlertBtn
+            yes={true}
+            onClick={() => {
+              toast.dismiss(t.id);
+              toast.promise(
+                deleteUser(),
+                {
+                  loading: 'Deleting User...',
+                  success: (data) => {
+                    console.log({ data });
+
+                    return ` ${data?.data?.message || 'success'} ` || 'success';
+                  },
+                  error: (err) => {
+                    if (!err.response.data.message) {
+                      return 'Something went wrong. Please Try again.';
+                    }
+                    return `${err?.response?.data?.message?.toString()}`;
+                  },
+                },
+                {
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                    fontSize: '1.6rem',
+                  },
+                }
+              );
+            }}
+          >
+            Yes
+          </a.AlertBtn>
+          <a.AlertBtn onClick={() => toast.dismiss(t.id)}>No</a.AlertBtn>
+        </span>
+      ),
+      {
+        // icon: <FiEdit2 />,
+        duration: Infinity,
       }
     );
   };
@@ -95,6 +177,7 @@ const ViewAllUsers = ({
         navigate(`/admin/users/update-user/${id}`);
         break;
       case 'delete':
+        setDeleteUserId(id);
         handleDelete(e, id);
         break;
 
@@ -104,6 +187,8 @@ const ViewAllUsers = ({
   };
 
   const [searchInput, setSearchInput] = useState('');
+
+  const [exportToggle, setExportToggle] = useState(false);
 
   const handleExcelExport = (data) => {
     console.log('Excel');
@@ -162,20 +247,29 @@ const ViewAllUsers = ({
   };
   return (
     <a.Container>
-      <a.PopupContainer>
-        <a.DataExportBtn onClick={() => handleExcelExport(users)}>
-          <RiFileExcel2Line />
-        </a.DataExportBtn>
-        <a.DataExportBtn onClick={() => handlePDFExport(users)}>
-          <FaRegFilePdf />
-        </a.DataExportBtn>
+      {exportToggle && (
+        <a.PopupContainer>
+          <a.PopupCloseBtn onClick={() => setExportToggle(false)}>
+            <FiXCircle />
+          </a.PopupCloseBtn>
+          <a.DataExportBtn onClick={() => handleExcelExport(users)}>
+            <RiFileExcel2Line />
+          </a.DataExportBtn>
+          <a.DataExportBtn onClick={() => handlePDFExport(users)}>
+            <FaRegFilePdf />
+          </a.DataExportBtn>
 
-        <a.DataExportBtn onClick={() => handleCSVExport(users)}>
-          <FaFileCsv />
-        </a.DataExportBtn>
-      </a.PopupContainer>
+          <a.DataExportBtn onClick={() => handleCSVExport(users)}>
+            <FaFileCsv />
+          </a.DataExportBtn>
+        </a.PopupContainer>
+      )}
       <a.Header>
-        View All Users | <button>Export current Data</button>
+        View All Users |{' '}
+        <button onClick={() => setExportToggle(!exportToggle)}>
+          Export current Data
+        </button>
+        |<button onClick={() => handleDeleteMultiple()}>Delete multiple</button>
       </a.Header>
       <a.TableContainer>
         <a.FilterRow>
@@ -229,6 +323,7 @@ const ViewAllUsers = ({
             </a.CloseBtn>
           </a.FilterRight>
         </a.FilterRow>
+        <div>deleteMultiple: {JSON.stringify(deleteMultiple)}</div>
         {users[0] === null && <h1>No records found</h1>}
         {users[0] != null && (
           <a.Table>
@@ -247,7 +342,14 @@ const ViewAllUsers = ({
               users.map((usr, idx) => {
                 return (
                   <a.TableRow key={idx}>
-                    <a.TableDataCell>{idx + 1}</a.TableDataCell>
+                    <a.TableDataCell className="flex">
+                      <a.CheckBox
+                        type="checkbox"
+                        onChange={() => handleCheckboxChange(usr.id)}
+                        checked={deleteMultiple.includes(usr.id)}
+                      />{' '}
+                      {idx + 1}
+                    </a.TableDataCell>
                     <a.TableDataCell>{usr?.uid || '-'}</a.TableDataCell>
                     <a.TableDataCell>{usr.firstName}</a.TableDataCell>
                     <a.TableDataCell>{usr.lastName}</a.TableDataCell>
