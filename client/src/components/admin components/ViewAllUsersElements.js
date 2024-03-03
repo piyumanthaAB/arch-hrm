@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: 100%;
   /* background-color: red; */
   padding: 3rem;
+  position: relative;
 `;
 export const Header = styled.h1`
   font-size: 2.5rem;
@@ -183,7 +184,7 @@ export const DateFilterClear = styled.div`
 
 export const SearchBar = styled.input`
   width: 60%;
-  border: 1px solid #222;
+  border: 2px solid #222;
   padding: 1rem;
   font-size: 1.5rem;
   border-radius: 1rem;
@@ -208,7 +209,7 @@ export const SearchBtn = styled.div`
 export const CloseBtn = styled.div`
   padding: 1rem;
   background-color: #d81b60;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #fff;
   border-radius: 0.5rem;
@@ -216,6 +217,41 @@ export const CloseBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const PopupContainer = styled.div`
+  width: 50%;
+  min-height: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+export const DataExportBtn = styled.div`
+  width: 10rem;
+  height: 10rem;
+  background-color: #d81b60;
+  border-radius: 2rem;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5rem;
 
   &:hover {
     cursor: pointer;

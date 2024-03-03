@@ -7,9 +7,14 @@ import {
   FiChevronRight,
   FiChevronLeft,
 } from 'react-icons/fi';
+
+import { RiFileExcel2Line } from 'react-icons/ri';
+import { FaFileCsv, FaRegFilePdf } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
+import exportFromJSON from 'export-from-json';
+import jsPDF from 'jspdf';
 
 const ViewAllUsers = ({
   users,
@@ -100,9 +105,78 @@ const ViewAllUsers = ({
 
   const [searchInput, setSearchInput] = useState('');
 
+  const handleExcelExport = (data) => {
+    console.log('Excel');
+    const fileName = 'users';
+    const exportType = exportFromJSON.types.xls;
+    exportFromJSON({ data, fileName, exportType });
+  };
+
+  const handleCSVExport = (data) => {
+    console.log('CSV');
+    const fileName = 'users';
+    const exportType = exportFromJSON.types.csv;
+    exportFromJSON({ data, fileName, exportType });
+  };
+
+  const handlePDFExport = (data) => {
+    console.log('hello');
+    // Create a new jsPDF instance with landscape orientation
+    const doc = new jsPDF({
+      orientation: 'landscape',
+    });
+
+    // Set initial y-position
+    let yPos = 10;
+
+    // Set max width for text
+    const maxWidth = doc.internal.pageSize.width - 20; // Adjust for margins
+
+    // Loop through the JSON data array
+    data.forEach((jsonData) => {
+      // Convert JSON object to string
+      const jsonString = JSON.stringify(jsonData);
+
+      // Split text into multiple lines if it exceeds maxWidth
+      const splitText = doc.splitTextToSize(jsonString, maxWidth);
+
+      // Calculate height of text
+      const textHeight = doc.getTextDimensions(splitText).h;
+
+      // Check if there's enough space to add the JSON data
+      if (textHeight < doc.internal.pageSize.height - yPos) {
+        // Add the JSON data to the current page
+        doc.text(splitText, 10, yPos);
+        yPos += textHeight + 10; // Add padding
+      } else {
+        // Add a new page and reset y-position
+        doc.addPage();
+        yPos = 10;
+        doc.text(splitText, 10, yPos);
+        yPos += textHeight + 10; // Add padding
+      }
+    });
+
+    // Save the PDF document
+    doc.save('json_data.pdf');
+  };
   return (
     <a.Container>
-      <a.Header>View All Users</a.Header>
+      <a.PopupContainer>
+        <a.DataExportBtn onClick={() => handleExcelExport(users)}>
+          <RiFileExcel2Line />
+        </a.DataExportBtn>
+        <a.DataExportBtn onClick={() => handlePDFExport(users)}>
+          <FaRegFilePdf />
+        </a.DataExportBtn>
+
+        <a.DataExportBtn onClick={() => handleCSVExport(users)}>
+          <FaFileCsv />
+        </a.DataExportBtn>
+      </a.PopupContainer>
+      <a.Header>
+        View All Users | <button>Export current Data</button>
+      </a.Header>
       <a.TableContainer>
         <a.FilterRow>
           <a.FilterLeft>
