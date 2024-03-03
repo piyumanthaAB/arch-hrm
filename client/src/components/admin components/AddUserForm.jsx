@@ -64,6 +64,14 @@ const AddUserForm = () => {
         loading: 'Adding User...',
         success: (data) => {
           // console.log({ data });
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setMobile('');
+          setCountry('');
+          setPhoto();
+          setPassword();
+          setPasswordReEnter();
           return ` ${data.data.message} ` || 'success';
         },
         error: (err) => {
@@ -134,11 +142,20 @@ const AddUserForm = () => {
               />
             </a.InputContainer>
             <a.InputContainer>
+              <TextInput
+                placeholder={'User Role'}
+                value={country}
+                setValue={setCountry}
+                required={true}
+              />
+            </a.InputContainer>
+            <a.InputContainer>
               <input
                 type="file"
                 id="file1"
                 accept="image/*"
                 onChange={handlePhoto}
+                required={true}
               />
             </a.InputContainer>
             <a.InputContainer>

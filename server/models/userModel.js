@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import Counter from './counterModel.js';
 
 const userSchema = new mongoose.Schema(
   {
+    uid: {
+      type: String,
+      // required: [true, 'A user must have a uid'],
+    },
     firstName: {
       type: String,
       required: [true, 'A user must have a name'],
@@ -71,6 +76,20 @@ const userSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+userSchema.pre('save', async function (next) {
+  if (!this.uid) {
+    const counter = await Counter.findOneAndUpdate(
+      { _id: 'User' }, // Adjust this to match the actual _id value
+      { $inc: { seq: 1 } },
+      { upsert: true, new: true }
+    );
+
+    const formattedSeq = ('0000' + counter.seq).slice(-4);
+    this.uid = `UID${formattedSeq}`;
+  }
+  next();
+});
 
 // hash the password whenever a user document is created on db
 userSchema.pre('save', async function (next) {

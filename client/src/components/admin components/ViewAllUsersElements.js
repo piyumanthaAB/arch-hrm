@@ -88,3 +88,13 @@ export const ActionBtn = styled.button`
     border: 1px solid #d81b60;
   }
 `;
+
+export const PhotoThumbnail = styled.div`
+  width: 3.5rem;
+  height: 3.5rem;
+  background-image: url(${(props) => props.imageUrl});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+`;

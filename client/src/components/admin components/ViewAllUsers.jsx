@@ -109,7 +109,9 @@ const ViewAllUsers = ({ users }) => {
                 <a.TableDataCell>{usr.email}</a.TableDataCell>
                 <a.TableDataCell>{usr.mobile}</a.TableDataCell>
                 <a.TableDataCell>{usr.country}</a.TableDataCell>
-                <a.TableDataCell>{usr.img}</a.TableDataCell>
+                <a.TableDataCell>
+                  <a.PhotoThumbnail imageUrl={usr.profilePicture} />
+                </a.TableDataCell>
                 <a.TableDataCell className="flex">
                   <a.ActionBtn
                     onClick={(e) => {
