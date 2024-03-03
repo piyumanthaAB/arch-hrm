@@ -24,7 +24,6 @@ EXPOSE 80
 ENV NODE_ENV=production
 # environment will be defined in the AppService. 
 # for the production app, NODE_ENV=production
-# for the production test app, NODE_ENV=test_production
 ENV PORT=80
 
 # Run the app

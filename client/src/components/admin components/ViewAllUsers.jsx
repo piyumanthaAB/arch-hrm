@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as a from './ViewAllUsersElements';
 import {
   FiEdit2,
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
-const ViewAllUsers = ({ users, setPage, page }) => {
+const ViewAllUsers = ({ users, setPage, page, setFrom, setTo }) => {
   const navigate = useNavigate();
 
   const deleteUser = async (e, id) => {
@@ -95,6 +95,33 @@ const ViewAllUsers = ({ users, setPage, page }) => {
     <a.Container>
       <a.Header>View All Users</a.Header>
       <a.TableContainer>
+        <a.FilterRow>
+          <a.FilterLeft></a.FilterLeft>
+          <a.FilterRight>
+            <a.DatePickerContainer>
+              <a.Label>From Date</a.Label>
+              <a.DateInput
+                type="date"
+                onChange={(e) => setFrom(e.target.value)}
+              />
+            </a.DatePickerContainer>
+            <a.DatePickerContainer>
+              <a.Label>Upto Date</a.Label>
+              <a.DateInput
+                type="date"
+                onChange={(e) => setTo(e.target.value)}
+              />
+            </a.DatePickerContainer>
+            <a.PaginationBtn
+              onClick={() => {
+                setFrom(null);
+                setTo(null);
+              }}
+            >
+              <FiXCircle />
+            </a.PaginationBtn>
+          </a.FilterRight>
+        </a.FilterRow>
         <a.Table>
           <a.TableHeader>
             <a.TableDataCell th={true}>#</a.TableDataCell>

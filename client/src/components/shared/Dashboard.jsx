@@ -6,6 +6,7 @@ import { userLinks } from '../../data/userLinks';
 import { useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import logo from './../../images/archmage_logo.png';
 
 const Dashboard = ({ rightContainerContent }) => {
   const location = useLocation();
@@ -56,14 +57,11 @@ const Dashboard = ({ rightContainerContent }) => {
   return (
     <d.Container>
       <d.LeftPanel>
-        <d.PanelTop></d.PanelTop>
+        <d.PanelTop>
+          <d.Img src={logo} />
+        </d.PanelTop>
         <d.PanelBody>
           {navLinks.map((link, idx) => {
-            console.log({ currentPath });
-            console.log({ linkUrl: link.url });
-            console.log(
-              currentPath === link.url || currentPath.includes(link.url)
-            );
             return (
               <d.NavItem
                 key={idx}

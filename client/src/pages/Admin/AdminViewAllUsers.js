@@ -16,8 +16,13 @@ const AdminViewAllUsers = () => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
 
+  const [from, setFrom] = useState(null);
+  const [to, setTo] = useState(null);
+
   const { data, isPending, isError } = useFetch(
-    `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}`
+    `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}${
+      from ? `&createdAt[gte]=${from}` : ''
+    }${to ? `&createdAt[lte]=${to}` : ''}`.slice(' ')
   );
 
   console.log({ data });
@@ -41,6 +46,8 @@ const AdminViewAllUsers = () => {
               users={data.data.users}
               setPage={setPage}
               page={page}
+              setFrom={setFrom}
+              setTo={setTo}
             />
           }
         />

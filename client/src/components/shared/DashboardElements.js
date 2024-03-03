@@ -20,8 +20,16 @@ export const LeftPanel = styled.div`
 `;
 export const PanelTop = styled.div`
   width: 100%;
-  min-height: 8rem;
-  background-color: #444;
+  height: 8rem;
+  /* background-color: #444; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Img = styled.img`
+  height: 100%;
+  width: auto;
 `;
 
 export const PanelBody = styled.div`

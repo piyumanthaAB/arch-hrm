@@ -134,3 +134,46 @@ export const PaginationBtn = styled.div`
     cursor: pointer;
   }
 `;
+
+export const FilterRow = styled.div`
+  width: 100%;
+  min-height: 5rem;
+  /* background-color: red; */
+  display: flex;
+`;
+
+export const FilterLeft = styled.div`
+  flex: 0 1 50%;
+  /* background-color: green; */
+`;
+export const FilterRight = styled.div`
+  flex: 1;
+  /* background-color: blue; */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+export const Label = styled.label`
+  font-size: 1.2rem;
+  color: #444;
+  font-weight: 600;
+`;
+export const DatePickerContainer = styled.div`
+  width: 40%;
+  margin: 1rem 0rem;
+`;
+
+export const DateInput = styled.input`
+  width: 100%;
+  border-radius: 1rem;
+  outline: none;
+  padding: 0.5rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const DateFilterClear = styled.div`
+  width: 4rem;
+`;
