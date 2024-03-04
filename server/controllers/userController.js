@@ -14,10 +14,10 @@ if (process.env.NODE_ENV === 'development') {
   dotenv.config({ path: './development.env' });
 }
 
-if (process.env.NODE_ENV === 'production') {
-  // set the path of the configuration file which stores the environment variables
-  dotenv.config({ path: './production.env' });
-}
+// if (process.env.NODE_ENV === 'production') {
+//   // set the path of the configuration file which stores the environment variables
+//   dotenv.config({ path: './production.env' });
+// }
 
 const accountName = process.env.AZURE_BLOB_STORAGE_ACCOUNT_NAME;
 const accountKey = process.env.AZURE_BLOB_STORAGE_ACCESS_KEY;
