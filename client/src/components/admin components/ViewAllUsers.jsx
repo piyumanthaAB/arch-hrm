@@ -22,13 +22,16 @@ const ViewAllUsers = ({
   page,
   setFrom,
   setTo,
-  setUrlSearch,
+  setSearch,
   manualFetch,
+  setUrl,
 }) => {
   const navigate = useNavigate();
 
   const [deleteUserId, setDeleteUserId] = useState('');
   const [deleteMultiple, setDeleteMultiple] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [exportToggle, setExportToggle] = useState(false);
 
   const handleCheckboxChange = (id) => {
     if (!deleteMultiple.includes(id)) {
@@ -47,6 +50,7 @@ const ViewAllUsers = ({
           'Content-Type': 'application/json',
         },
       });
+      manualFetch();
       return res;
     } catch (err) {
       console.log(err.response.data);
@@ -186,10 +190,6 @@ const ViewAllUsers = ({
     }
   };
 
-  const [searchInput, setSearchInput] = useState('');
-
-  const [exportToggle, setExportToggle] = useState(false);
-
   const handleExcelExport = (data) => {
     console.log('Excel');
     const fileName = 'users';
@@ -245,6 +245,7 @@ const ViewAllUsers = ({
     // Save the PDF document
     doc.save('json_data.pdf');
   };
+
   return (
     <a.Container>
       {exportToggle && (
@@ -265,11 +266,17 @@ const ViewAllUsers = ({
         </a.PopupContainer>
       )}
       <a.Header>
-        View All Users |{' '}
-        <button onClick={() => setExportToggle(!exportToggle)}>
-          Export current Data
-        </button>
-        |<button onClick={() => handleDeleteMultiple()}>Delete multiple</button>
+        View All Users
+        <a.BtnGrp>
+          <a.LabelBtn onClick={() => setExportToggle(!exportToggle)}>
+            Export current Data
+          </a.LabelBtn>
+          {deleteMultiple.length > 1 && (
+            <a.LabelBtn onClick={() => handleDeleteMultiple()}>
+              Delete multiple
+            </a.LabelBtn>
+          )}
+        </a.BtnGrp>
       </a.Header>
       <a.TableContainer>
         <a.FilterRow>
@@ -284,7 +291,7 @@ const ViewAllUsers = ({
                 if (searchInput === '') {
                   return toast.error('Please enter name or UID!');
                 }
-                setUrlSearch(`/api/v1/users/filter?criteria=${searchInput}`);
+                setSearch(searchInput);
               }}
             >
               Search
@@ -292,7 +299,8 @@ const ViewAllUsers = ({
             <a.SearchBtn
               onClick={() => {
                 setSearchInput('');
-                setUrlSearch(null);
+                setSearch(null);
+                // setUrlSearch(null);
               }}
             >
               Clear
@@ -303,14 +311,18 @@ const ViewAllUsers = ({
               <a.Label>From Date</a.Label>
               <a.DateInput
                 type="date"
-                onChange={(e) => setFrom(e.target.value)}
+                onChange={(e) => {
+                  setFrom(e.target.value);
+                }}
               />
             </a.DatePickerContainer>
             <a.DatePickerContainer>
               <a.Label>Upto Date</a.Label>
               <a.DateInput
                 type="date"
-                onChange={(e) => setTo(e.target.value)}
+                onChange={(e) => {
+                  setTo(e.target.value);
+                }}
               />
             </a.DatePickerContainer>
             <a.CloseBtn
@@ -323,7 +335,7 @@ const ViewAllUsers = ({
             </a.CloseBtn>
           </a.FilterRight>
         </a.FilterRow>
-        <div>deleteMultiple: {JSON.stringify(deleteMultiple)}</div>
+        {/* <div>deleteMultiple: {JSON.stringify(deleteMultiple)}</div> */}
         {users[0] === null && <h1>No records found</h1>}
         {users[0] != null && (
           <a.Table>

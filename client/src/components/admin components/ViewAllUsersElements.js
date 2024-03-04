@@ -11,6 +11,7 @@ export const Header = styled.h1`
   font-size: 2.5rem;
   color: #555;
   text-align: left;
+  display: flex;
 `;
 
 export const TableContainer = styled.div`
@@ -206,6 +207,27 @@ export const SearchBtn = styled.div`
     cursor: pointer;
   }
 `;
+export const LabelBtn = styled.div`
+  padding: 1rem;
+  background-color: #d81b60;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 0.5rem;
+  margin: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const BtnGrp = styled.div`
+  display: flex;
+  margin-left: auto;
+`;
+
 export const CloseBtn = styled.div`
   padding: 1rem;
   background-color: #d81b60;
@@ -225,10 +247,10 @@ export const CloseBtn = styled.div`
 
 export const PopupContainer = styled.div`
   width: 50%;
-  min-height: 80%;
-  position: absolute;
-  top: 60%;
-  left: 50%;
+  height: 70%;
+  position: fixed;
+  top: 40%;
+  left: 60%;
   transform: translate(-50%, -50%);
   z-index: 999;
   background: rgba(255, 255, 255, 0.7);

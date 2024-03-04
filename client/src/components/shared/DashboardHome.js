@@ -56,7 +56,7 @@ const DashboardHome = () => {
   }, [user]);
   return (
     <Container>
-      <HeaderContainer>Welcome</HeaderContainer>
+      {/* <HeaderContainer>Welcome</HeaderContainer> */}
       <CardRow>
         {cards.map((card, i) => {
           return <CardContainer key={i}> {card.element} </CardContainer>;

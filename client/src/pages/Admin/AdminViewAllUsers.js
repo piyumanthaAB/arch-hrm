@@ -19,21 +19,32 @@ const AdminViewAllUsers = () => {
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
 
-  const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState(null);
 
-  const [url, setUrl] = useState(
-    `/api/v1/users?sort=-createdAt&active=true&limit=${limit}&page=${page}${
-      from ? `&createdAt[gte]=${from}` : ''
-    }${to ? `&createdAt[lte]=${to}` : ''}`.trim()
-  );
+  // const [url, setUrl] = useState(
+  //   `/api/v1/users?sort=-createdAt&active=true&limit=${limit}&page=${page}
+  //   `
+  // );
   const [urlSearch, setUrlSearch] = useState(null);
 
-  const { data, isPending, isError, manualFetch } = useFetch(urlSearch || url);
-  // const { data, isPending, isError } = useFetch(
+  // const { data, isPending, isError, manualFetch } = useFetch(url);
+  // const { data, isPending, isError, manualFetch } = useFetch(
   //   `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}${
   //     from ? `&createdAt[gte]=${from}` : ''
   //   }${to ? `&createdAt[lte]=${to}` : ''}`.trim()
   // );
+  const { data, isPending, isError, manualFetch } = useFetch(
+    `/api/v1/users?sort=-createdAt&limit=${limit}&page=${page}${
+      from ? `&createdAt[gte]=${from}` : ''
+    }${to ? `&createdAt[lte]=${to}` : ''}`.trim()
+  );
+
+  // const {
+  //   data: searchData,
+  //   isPending: searchPending,
+  //   isError: searchError,
+  //   manualFetch: searchFetch,
+  // } = useFetch(search && `/api/v1/users/filter?${search}`.trim());
 
   console.log({ data });
 
@@ -52,15 +63,19 @@ const AdminViewAllUsers = () => {
       {data && (
         <Dashboard
           rightContainerContent={
-            <ViewAllUsers
-              users={data.data.users}
-              setPage={setPage}
-              page={page}
-              setFrom={setFrom}
-              setTo={setTo}
-              setUrlSearch={setUrlSearch}
-              manualFetch={manualFetch}
-            />
+            <>
+              <ViewAllUsers
+                users={data.data.users}
+                setPage={setPage}
+                page={page}
+                setFrom={setFrom}
+                setTo={setTo}
+                setUrlSearch={setUrlSearch}
+                manualFetch={manualFetch}
+                setSearch={setSearch}
+                limit={limit}
+              />
+            </>
           }
         />
       )}

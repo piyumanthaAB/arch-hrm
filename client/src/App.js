@@ -39,15 +39,11 @@ function App() {
           <Route exact path="/" element={<UserLogin />} />
           <Route exact path="/signup" element={<UserSIgnUp />} />
           <Route exact path="/user/home" element={<AdminHome />} />
-          <Route exact path="/user/my-profile" element={<AdminHome />} />
+          <Route exact path="/user/profile" element={<AdminHome />} />
           {/* =========================================================== */}
           <Route exact path="/admin/home" element={<AdminHome />} />
           <Route exact path="/admin/my-profile" element={<UserProfile />} />
-          <Route
-            exact
-            path="/admin/users/users"
-            element={<AdminViewAllUsers />}
-          />
+          <Route exact path="/admin/users/" element={<AdminViewAllUsers />} />
           <Route
             exact
             path="/admin/users/add-user"
