@@ -16,7 +16,9 @@ const override = {
 const AdminViewSingleUser = ({ viewUpdate }) => {
   const { id } = useParams();
 
-  const { data, isPending, isError } = useFetch(`/api/v1/users/${id}`);
+  const { data, isPending, isError, manualFetch } = useFetch(
+    `/api/v1/users/${id}`
+  );
   const [update, setUpdate] = useState(viewUpdate || false);
 
   console.log({ data });
@@ -35,7 +37,11 @@ const AdminViewSingleUser = ({ viewUpdate }) => {
       {data && (
         <Dashboard
           rightContainerContent={
-            <ViewSingleUser user={data.data.user} update={update} />
+            <ViewSingleUser
+              user={data.data.user}
+              update={update}
+              manualFetch={manualFetch}
+            />
           }
         />
       )}

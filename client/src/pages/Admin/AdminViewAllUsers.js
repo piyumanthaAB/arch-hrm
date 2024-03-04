@@ -46,7 +46,7 @@ const AdminViewAllUsers = () => {
   //   manualFetch: searchFetch,
   // } = useFetch(search && `/api/v1/users/filter?${search}`.trim());
 
-  console.log({ data });
+  // console.log({ data });
 
   return (
     <>

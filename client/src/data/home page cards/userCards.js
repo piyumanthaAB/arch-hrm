@@ -9,7 +9,7 @@ const cards = [
         cardcolor="#EBFAF0"
         iconcirclecolor="#CCEBD7"
         text="Update Profile"
-        url="/user/my-profile"
+        url="/user/profile"
       />
     ),
   },

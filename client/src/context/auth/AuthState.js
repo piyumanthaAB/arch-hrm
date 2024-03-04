@@ -57,9 +57,6 @@ const AuthState = (props) => {
   //user login
   const login = async (formData) => {
     const { email, password } = formData;
-
-    console.log('aaaaaaaaaaaaaaaa');
-
     try {
       dispatch({
         type: SET_LOADING,

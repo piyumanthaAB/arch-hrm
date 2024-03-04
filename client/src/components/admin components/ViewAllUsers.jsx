@@ -33,6 +33,21 @@ const ViewAllUsers = ({
   const [searchInput, setSearchInput] = useState('');
   const [exportToggle, setExportToggle] = useState(false);
 
+  const [usersList, setUsersList] = useState(users);
+  const [keyword, setKeyword] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
+  const handleKeywordFilter = () => {
+    console.log({ users });
+    return usersList.filter((user) => {
+      return (
+        user.uid.includes(keyword) ||
+        user.firstName.toLowerCase().includes(keyword.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(keyword.toLowerCase())
+      );
+    });
+  };
+
   const handleCheckboxChange = (id) => {
     if (!deleteMultiple.includes(id)) {
       setDeleteMultiple([...deleteMultiple, id]);
@@ -282,25 +297,28 @@ const ViewAllUsers = ({
         <a.FilterRow>
           <a.FilterLeft>
             <a.SearchBar
+              type="text"
               placeholder="Enter name or UID"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
             />
             <a.SearchBtn
               onClick={() => {
-                if (searchInput === '') {
+                if (keyword === '') {
                   return toast.error('Please enter name or UID!');
                 }
-                setSearch(searchInput);
+                const filteredUsers = handleKeywordFilter();
+                setFilteredUsers(filteredUsers);
+                // Do something with the filteredUsers array, like updating the UI
+                console.log(filteredUsers);
               }}
             >
               Search
             </a.SearchBtn>
             <a.SearchBtn
               onClick={() => {
-                setSearchInput('');
-                setSearch(null);
-                // setUrlSearch(null);
+                setFilteredUsers([]);
+                setKeyword('');
               }}
             >
               Clear
@@ -337,7 +355,74 @@ const ViewAllUsers = ({
         </a.FilterRow>
         {/* <div>deleteMultiple: {JSON.stringify(deleteMultiple)}</div> */}
         {users[0] === null && <h1>No records found</h1>}
-        {users[0] != null && (
+
+        {/* ============================= */}
+        {filteredUsers.length > 0 && (
+          <a.Table>
+            <a.TableHeader>
+              <a.TableDataCell th={true}>#</a.TableDataCell>
+              <a.TableDataCell th={true}>UID</a.TableDataCell>
+              <a.TableDataCell th={true}>First Name</a.TableDataCell>
+              <a.TableDataCell th={true}>Last Name</a.TableDataCell>
+              <a.TableDataCell th={true}>Email</a.TableDataCell>
+              <a.TableDataCell th={true}>Created Date Time</a.TableDataCell>
+              <a.TableDataCell th={true}>Photo</a.TableDataCell>
+              <a.TableDataCell th={true}>Actions</a.TableDataCell>
+            </a.TableHeader>
+
+            {filteredUsers.length > 0 &&
+              filteredUsers.map((usr, idx) => {
+                return (
+                  <a.TableRow key={idx}>
+                    <a.TableDataCell className="flex">
+                      <a.CheckBox
+                        type="checkbox"
+                        onChange={() => handleCheckboxChange(usr.id)}
+                        checked={deleteMultiple.includes(usr.id)}
+                      />{' '}
+                      {idx + 1}
+                    </a.TableDataCell>
+                    <a.TableDataCell>{usr?.uid || '-'}</a.TableDataCell>
+                    <a.TableDataCell>{usr.firstName}</a.TableDataCell>
+                    <a.TableDataCell>{usr.lastName}</a.TableDataCell>
+                    <a.TableDataCell>{usr.email}</a.TableDataCell>
+                    <a.TableDataCell>{usr.createdAt}</a.TableDataCell>
+                    <a.TableDataCell>
+                      <a.PhotoThumbnail imageUrl={usr.profilePicture} />
+                    </a.TableDataCell>
+                    <a.TableDataCell className="flex">
+                      <a.ActionBtn
+                        onClick={(e) => {
+                          handleAction(e, 'view', usr.id);
+                        }}
+                      >
+                        <FiEye />
+                      </a.ActionBtn>{' '}
+                      <a.ActionBtn
+                        onClick={(e) => {
+                          handleAction(e, 'update', usr.id);
+                        }}
+                      >
+                        <FiEdit2 />
+                      </a.ActionBtn>{' '}
+                      <a.ActionBtn
+                        onClick={(e) => {
+                          handleAction(e, 'delete', usr.id);
+                        }}
+                      >
+                        <FiXCircle />
+                      </a.ActionBtn>
+                    </a.TableDataCell>
+                  </a.TableRow>
+                );
+              })}
+          </a.Table>
+        )}
+
+        {/* ====================== */}
+
+        {/* ============================= */}
+        {users[0] != null && filteredUsers.length === 0 && (
           <a.Table>
             <a.TableHeader>
               <a.TableDataCell th={true}>#</a.TableDataCell>
@@ -398,6 +483,9 @@ const ViewAllUsers = ({
               })}
           </a.Table>
         )}
+
+        {/* ====================== */}
+
         <a.TableFooter>
           <a.PaginationContainer>
             <a.PaginationBtn

@@ -3,7 +3,7 @@ import * as d from './DashboardElements';
 import { FiHome, FiUsers, FiBook, FiCheckCircle } from 'react-icons/fi';
 import { adminLinks } from '../../data/adminLinks';
 import { userLinks } from '../../data/userLinks';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import logo from './../../images/archmage_logo.png';
@@ -13,6 +13,8 @@ const Dashboard = ({ rightContainerContent }) => {
   const [navLinks, setNavLinks] = useState(adminLinks);
   const [currentPath, setCurrentPath] = useState('/admin/home');
   const { user, logout } = useAuth();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentPath(location.pathname);
@@ -25,17 +27,20 @@ const Dashboard = ({ rightContainerContent }) => {
         break;
 
       default:
-        // navigate('/login')
+        // navigate('/');
         break;
     }
   }, [location.pathname]);
 
   const handleLogout = async (e) => {
-    await toast.promise(
+    toast.promise(
       logout(),
       {
         loading: 'Logging out ...',
-        success: (data) => `Logged out successfully `,
+        success: (data) => {
+          navigate('/');
+          return `Logged out successfully `;
+        },
         error: (err) => {
           if (!err.response.data.message) {
             return 'Something went wrong. Try again.';
@@ -78,7 +83,7 @@ const Dashboard = ({ rightContainerContent }) => {
             );
           })}
           <d.NavItem
-            to={'/'}
+            // to={'/'}
             onClick={handleLogout}
             background={'linear-gradient(195deg, #242424, #242424)'}
           >

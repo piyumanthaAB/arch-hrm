@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { adminCards } from '../../data/home page cards/adminCards';
 import { userCards } from '../../data/home page cards/userCards';
 import useAuth from './../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const Container = styled.div`
   ${'' /* background-color:green ; */}
@@ -38,7 +39,9 @@ export const CardContainer = styled.div`
 const DashboardHome = () => {
   const [cards, setCards] = useState(adminCards);
 
-  const { user } = useAuth();
+  const { user, loadUser } = useAuth();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     switch (user?.role) {
@@ -50,13 +53,13 @@ const DashboardHome = () => {
         break;
 
       default:
-        // navigate('/login')
+        navigate('/');
         break;
     }
   }, [user]);
   return (
     <Container>
-      {/* <HeaderContainer>Welcome</HeaderContainer> */}
+      <h1>Hello: {`${user?.firstName} ${user?.lastName}`}</h1>
       <CardRow>
         {cards.map((card, i) => {
           return <CardContainer key={i}> {card.element} </CardContainer>;

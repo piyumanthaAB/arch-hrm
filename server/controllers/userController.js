@@ -172,9 +172,12 @@ const updateUser = catchAsync(async (req, res, next) => {
     return next(new AppError('Cannot update passwords!', 403));
   }
 
-  if (!req.body.active) {
+  if (req.body.active) {
     return next(
-      new AppError('Cannot deactivate users from this endpoint!', 403)
+      new AppError(
+        'Cannot deactivate or activate users from this endpoint!',
+        403
+      )
     );
   }
   const user = await User.findByIdAndUpdate(
@@ -197,6 +200,7 @@ const updateUser = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    message: 'User updated successfully!',
     data: {
       user,
     },

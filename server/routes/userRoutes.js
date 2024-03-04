@@ -30,12 +30,18 @@ router
   )
   .get(authController.protect, userController.getAllUsers);
 
-router.use(authController.protect, authController.allowedOnlyTo('admin'));
-
 router
   .route('/:id')
-  .get(userController.getUser)
+  .get(
+    authController.protect,
+    authController.allowedOnlyTo('admin'),
+    userController.getUser
+  )
   .patch(userController.updateUser)
-  .delete(userController.deactivateUser);
+  .delete(
+    authController.protect,
+    authController.allowedOnlyTo('admin'),
+    userController.deactivateUser
+  );
 
 export { router as userRouter };

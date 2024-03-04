@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import * as s from './SignupFormElements';
 import TextInput from '../shared/TextInput';
 import PasswordInput from '../shared/PasswordInput';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -9,9 +12,90 @@ const SignupForm = () => {
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState();
   const [country, setCountry] = useState('Sri Lanka');
-  const [photo, setPhoto] = useState('');
+  const [photo, setPhoto] = useState(null);
   const [password, setPassword] = useState('');
   const [passwordReEnter, setPasswordReEnter] = useState('');
+
+  const handlePhoto = (e) => {
+    setPhoto(e.target.files[0]);
+    // validateImageResolution(e.target.files[0]);
+    // validateImage(e.target.files[0], 1080, 1080, setCover);
+  };
+
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e, formData) => {
+    try {
+      const res = await axios({
+        method: 'POST',
+        url: `/api/v1/users`,
+        data: formData,
+        headers: {
+          // 'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err.response.data);
+      throw err;
+    }
+  };
+
+  const SignUp = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    formData.append('mobile', mobile);
+    formData.append('country', country);
+    formData.append('photo', photo);
+    formData.append('password', password);
+    formData.append('passwordConfirm', passwordReEnter);
+
+    if (password !== passwordReEnter) {
+      return toast.error(
+        "Password and Password Re Enter doesn't match! Check again!"
+      );
+    }
+
+    toast.promise(
+      handleSignUp(e, formData),
+      {
+        loading: 'Signing Up...',
+        success: (data) => {
+          // console.log({ data });
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setMobile('');
+          setCountry('');
+          setPhoto();
+          setPassword();
+          setPasswordReEnter();
+          navigate('/');
+          return ` ${data.data.message} ` || 'success';
+        },
+        error: (err) => {
+          if (!err.response.data.message) {
+            return 'Something went wrong. Please Try again.';
+          }
+          return `${err?.response?.data?.message?.toString()}`;
+        },
+      },
+      {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+          fontSize: '1.6rem',
+        },
+      }
+    );
+  };
 
   return (
     <s.Container>
@@ -19,7 +103,7 @@ const SignupForm = () => {
         <s.ImageContainer />
       </s.ContainerLeft>
       <s.ContainerRight>
-        <s.FormContainer>
+        <s.FormContainer onSubmit={SignUp}>
           <s.FormContainerTop>
             <s.FormHeader>Sign Up</s.FormHeader>
             <s.FormSubHeader>Complete the form to sign up</s.FormSubHeader>
@@ -71,10 +155,11 @@ const SignupForm = () => {
                 />
               </s.InputContainer>
               <s.InputContainer>
-                <TextInput
-                  placeholder={'Photo'}
-                  value={photo}
-                  setValue={setPhoto}
+                <input
+                  type="file"
+                  id="file1"
+                  accept="image/*"
+                  onChange={handlePhoto}
                   required={true}
                 />
               </s.InputContainer>

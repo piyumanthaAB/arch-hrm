@@ -11,11 +11,6 @@ const links = [
     linkText: 'Users',
     url: '/admin/users',
   },
-  {
-    icon: <FiUsers />,
-    linkText: 'Profile',
-    url: '/admin/my-profile',
-  },
 ];
 
 export { links as adminLinks };
