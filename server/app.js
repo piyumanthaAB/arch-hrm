@@ -6,6 +6,9 @@ import bodyParser from 'body-parser';
 import path from 'path';
 const __dirname = path.resolve();
 import AppError from './utils/AppError.js';
+import rateLimit from 'express-rate-limit';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
 
 //routers import
 import { userRouter } from './routes/userRoutes.js';
@@ -14,6 +17,22 @@ import { authRouter } from './routes/authRoutes.js';
 const app = express();
 
 app.use(morgan('dev'));
+
+if (process.env.NODE_ENV === 'production') {
+  // Limit no of requests from same IP
+  const limiter = rateLimit({
+    max: 1000,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many requests from this IP, please try again in an hour ! ',
+  });
+  app.use(limiter);
+}
+
+// data sanitization against NoSql query injection
+app.use(mongoSanitize());
+
+// data sanitization against XSS
+app.use(xss());
 
 // read cookies into req object
 app.use(cookieParser());
